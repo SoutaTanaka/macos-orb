@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if command -v rbenv >/dev/null 2>&1; then
-    ruby_ver="$ORB_VAL_RUBY_VERSION"
+    ruby_ver=<< parameters.version >>
     if [[ "$ruby_ver" != "system" ]]; then
-        ruby_version=$(rbenv versions --bare | grep "$ORB_VAL_RUBY_VERSION" | head -n 1)
+        ruby_version=$(rbenv versions --bare | grep "<< parameters.version >>" | head -n 1)
         if [[ -z "$ruby_version" ]]; then
-            printf "\nNo Rubies installed that match version %s\n" "$ORB_VAL_RUBY_VERSION"
+            printf "\nNo Rubies installed that match version %s\n" "<< parameters.version >>"
             printf "\nInstalled versions:\n"
             rbenv versions
             exit 1
@@ -22,10 +22,10 @@ if command -v rbenv >/dev/null 2>&1; then
 else
     xcode_major=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f1)
     xcode_minor=$(/usr/bin/xcodebuild -version | awk 'NR==1{print $2}' | cut -d. -f2)
-    ruby_ver="$ORB_VAL_RUBY_VERSION"
+    ruby_ver=<< parameters.version >>
 
     if [[ "$ruby_ver" != "system" ]]; then
-        ruby_version="ruby-$ORB_VAL_RUBY_VERSION"
+        ruby_version="ruby-<< parameters.version >>"
     else
         ruby_version="system"
     fi
